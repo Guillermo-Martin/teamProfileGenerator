@@ -130,7 +130,7 @@ async function userData(){
 
         // ask if the user wants to make another employee
         await inquirer.prompt(makeAnother).then(function(response){
-            console.log(response);
+            // console.log(response);
             return decision = response.makeAnother;
         });
 
@@ -138,11 +138,24 @@ async function userData(){
         if(decision === "Yes"){
             await userData();
         } else {
-            return;
+            console.log(employeeArray);
+            // return;
+            // call the render() function
+            let allEmployees = render(employeeArray);
+
+            // create the html file
+            fs.writeFile(outputPath, allEmployees, function(err){
+                if(err){
+                    console.log(err);
+                }
+                    console.log("Data entered!");
+            })
+
+            
         }
 
         // check employeearray
-        console.log(employeeArray);
+        // console.log(employeeArray);
 
     } catch (err){
         console.log(err);
@@ -157,8 +170,7 @@ userData();
 
 
 
-
-// After the user has input all employees desired, call the `render` function (required
+// X After the user has input all employees desired, call the `render` function (required
 // above) and pass in an array containing all employee objects; the `render` function will
 // generate and return a block of HTML including templated divs for each employee!
 
