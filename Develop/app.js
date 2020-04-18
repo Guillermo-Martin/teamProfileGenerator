@@ -42,19 +42,6 @@ const basicQuestions = [
         ]}
 ];
 
-// INQUIRER:  ROLE QUESTION
-const roleQuestion = [
-    {
-    type: "list",
-    name: "role",
-    message: "What is your role?",
-    choices: [
-        "Manager",
-        "Engineer",
-        "Intern"
-    ]}
-]
-
 
 // INQUIRER: MANAGER QUESTION (ASK IF THEY PICK MANAGER)
 const managerQuestion = [
@@ -83,7 +70,11 @@ const internQuestion = {
 const makeAnother = {
     type: "list",
     name: "makeAnother",
-    message: "Would you like to add another employee?"
+    message: "Would you like to add another employee?",
+    choices: [
+        "Yes",
+        "No"
+    ]
 }
 
 // Array to store all users
@@ -133,12 +124,25 @@ async function userData(){
                 break;
         };
 
-        // console.log(employee);
-
         // push employee to employee array
         employeeArray.push(employee);
-        console.log(employeeArray);
+        console.log("Employee added!");
 
+        // ask if the user wants to make another employee
+        await inquirer.prompt(makeAnother).then(function(response){
+            console.log(response);
+            return decision = response.makeAnother;
+        });
+
+        // if decision above is "yes" run the async function again
+        if(decision === "Yes"){
+            await userData();
+        } else {
+            return;
+        }
+
+        // check employeearray
+        console.log(employeeArray);
 
     } catch (err){
         console.log(err);
@@ -200,6 +204,19 @@ userData();
 // inquirer.prompt(internQuestion).then(function(response){
 //     console.log(response);
 // });
+
+// INQUIRER:  ROLE QUESTION
+// const roleQuestion = [
+//     {
+//     type: "list",
+//     name: "role",
+//     message: "What is your role?",
+//     choices: [
+//         "Manager",
+//         "Engineer",
+//         "Intern"
+//     ]}
+// ]
 
 
 // WORKING ASYNC FUNCTION
