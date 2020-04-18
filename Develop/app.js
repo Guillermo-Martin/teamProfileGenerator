@@ -39,9 +39,21 @@ const basicQuestions = [
             "Manager",
             "Engineer",
             "Intern"
-        ]
-    }
+        ]}
 ];
+
+// INQUIRER:  ROLE QUESTION
+const roleQuestion = [
+    {
+    type: "list",
+    name: "role",
+    message: "What is your role?",
+    choices: [
+        "Manager",
+        "Engineer",
+        "Intern"
+    ]}
+]
 
 
 // INQUIRER: MANAGER QUESTION (ASK IF THEY PICK MANAGER)
@@ -67,26 +79,65 @@ const internQuestion = {
     message: "Where do you currently go to school?"
 }
 
-// // INQUIRER: ASK BASIC QUESTIONS
-inquirer.prompt(basicQuestions).then(function(response){
-    console.log(response);
-});
+// INQUIRER: MAKE ANOTHER EMPLOYEE?
+const makeAnother = {
+    type: "list",
+    name: "makeAnother",
+    message: "Would you like to add another employee?"
+}
 
-// // INQUIRER: IF MANAGER, ASK THIS QUESTION
-inquirer.prompt(managerQuestion).then(function(response){
-    console.log(response);
-});
+// Array to store all users
+const dataArray = []
 
-// // INQUIRER: IF ENGINEER, ASK THIS QUESTION
-inquirer.prompt(engineerQuestion).then(function(response){
-    console.log(response);
-});
+// CREATING THE FUNCTION TO COMBINE DATA
+async function userData(){
+    try{
+        // ask basic questions first
+        await inquirer.prompt(basicQuestions).then(function(response){
+            return employee = response;
+        });
 
-// // INQUIRER: IF INTERN, ASK THIS QUESTION
-inquirer.prompt(internQuestion).then(function(response){
-    console.log(response);
-});
 
+        // filter out the role response here
+        switch(employee.role){
+            case "Manager":
+                await inquirer.prompt(managerQuestion).then(function(response){
+                    employee.officeNumber = response.officeNumber;
+                });
+                
+                break;
+
+            case "Engineer":
+                await inquirer.prompt(engineerQuestion).then(function(response){
+                    employee.github = response.githubUserName;
+                });                
+
+                break;
+
+            case "Intern":
+                await inquirer.prompt(internQuestion).then(function(response){
+                    employee.school = response.schoolName;
+                });
+                
+                break;
+
+            default:
+
+                break;
+        };
+
+        console.log(employee);
+
+
+    } catch (err){
+        console.log(err);
+    }
+}
+
+
+
+// call the userData() function
+userData();
 
 
 
@@ -111,3 +162,84 @@ inquirer.prompt(internQuestion).then(function(response){
 // for further information. Be sure to test out each class and verify it generates an 
 // object with the correct structure and methods. This structure will be crucial in order
 // for the provided `render` function to work!```
+
+
+
+
+
+// ================= NOTES =======================
+
+
+// // INQUIRER: ASK BASIC QUESTIONS
+// inquirer.prompt(basicQuestions).then(function(response){
+//     console.log(response);
+// });
+
+// // INQUIRER: IF MANAGER, ASK THIS QUESTION
+// inquirer.prompt(managerQuestion).then(function(response){
+//     console.log(response);
+// });
+
+// // // INQUIRER: IF ENGINEER, ASK THIS QUESTION
+// inquirer.prompt(engineerQuestion).then(function(response){
+//     console.log(response);
+// });
+
+// // // INQUIRER: IF INTERN, ASK THIS QUESTION
+// inquirer.prompt(internQuestion).then(function(response){
+//     console.log(response);
+// });
+
+
+// WORKING ASYNC FUNCTION
+// async function userData(){
+//     try{
+//         // ask basic questions first
+//         await inquirer.prompt(basicQuestions).then(function(response){
+//             return basicUser = response;
+//         });
+
+//         // ask role question next
+//         await inquirer.prompt(roleQuestion).then(function(response){
+//             return employeeRole = response.role;
+//         });
+
+//             // use role response from above to filter the questions
+            // switch(employeeRole){
+            //     case "Manager":
+            //         inquirer.prompt(managerQuestion).then(function(response){
+            //             basicUser.officeNumber = response.officeNumber;
+            //             dataArray.push(basicUser);
+            //             console.log(dataArray);
+            //         });
+
+            //         break;
+
+            //     case "Engineer":
+            //         inquirer.prompt(engineerQuestion).then(function(response){
+            //             basicUser.githubUsername = response.githubUserName;
+            //             dataArray.push(basicUser);
+            //             console.log(dataArray);
+            //         });                
+                    
+            //         break;
+
+            //     case "Intern":
+            //         inquirer.prompt(internQuestion).then(function(response){
+            //             basicUser.schoolName = response.schoolName;
+            //             dataArray.push(basicUser);
+            //             console.log(dataArray);
+            //         });
+
+            //         break;
+
+            //     default:
+
+            //         break;
+            // };
+
+
+//     } catch (err){
+//         console.log(err);
+//     }
+// }
