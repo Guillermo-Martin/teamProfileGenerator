@@ -87,37 +87,44 @@ const makeAnother = {
 }
 
 // Array to store all users
-const dataArray = []
+const employeeArray = []
+let employee = "";
 
 // CREATING THE FUNCTION TO COMBINE DATA
 async function userData(){
     try{
         // ask basic questions first
         await inquirer.prompt(basicQuestions).then(function(response){
-            return employee = response;
+            return employeeData = response;
         });
 
 
         // filter out the role response here
-        switch(employee.role){
+        switch(employeeData.role){
             case "Manager":
                 await inquirer.prompt(managerQuestion).then(function(response){
-                    employee.officeNumber = response.officeNumber;
+                    employeeData.officeNumber = response.officeNumber;
                 });
+
+                employee = new Manager(employeeData.name, employeeData.id, employeeData.email, employeeData.officeNumber);
                 
                 break;
 
             case "Engineer":
                 await inquirer.prompt(engineerQuestion).then(function(response){
-                    employee.github = response.githubUserName;
+                    employeeData.github = response.githubUserName;
                 });                
+
+                employee = new Engineer(employeeData.name, employeeData.id, employeeData.email, employeeData.github);
 
                 break;
 
             case "Intern":
                 await inquirer.prompt(internQuestion).then(function(response){
-                    employee.school = response.schoolName;
+                    employeeData.school = response.schoolName;
                 });
+
+                employee = new Intern(employeeData.name, employeeData.id, employeeData.email, employeeData.school);
                 
                 break;
 
@@ -126,7 +133,11 @@ async function userData(){
                 break;
         };
 
-        console.log(employee);
+        // console.log(employee);
+
+        // push employee to employee array
+        employeeArray.push(employee);
+        console.log(employeeArray);
 
 
     } catch (err){
