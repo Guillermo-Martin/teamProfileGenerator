@@ -1,3 +1,4 @@
+// Require dependencies
 const Manager = require("./lib/Manager");
 const Engineer = require("./lib/Engineer");
 const Intern = require("./lib/Intern");
@@ -11,30 +12,27 @@ const outputPath = path.join(OUTPUT_DIR, "team.html");
 const render = require("./lib/htmlRenderer");
 
 
-// Write code to use inquirer to gather information about the development team members,
-// and to create objects for each team member (using the correct classes as blueprints!)
-
 // INQUIRER:  BASIC QUESTIONS
 const basicQuestions = [
     {
         type: "input",
         name: "name",
-        message:  "What is your name?"
+        message:  "What is the employee's name?"
     },
     {
         type: "input",
         name: "id",
-        message: "What is your ID?"
+        message: "What is the employee's ID?"
     },
     {
         type: "input",
         name: "email",
-        message: "What is your email address?"
+        message: "What is the employee's email address?"
     },
     {
         type: "list",
         name: "role",
-        message: "What is your role?",
+        message: "What is the employee's role?",
         choices: [
             "Manager",
             "Engineer",
@@ -48,7 +46,7 @@ const managerQuestion = [
     {
         type: "input",
         name: "officeNumber",
-        message: "What is your office number?"
+        message: "What is the Manager's office number?"
     }
 ];
 
@@ -56,14 +54,14 @@ const managerQuestion = [
 const engineerQuestion = {
     type: "input",
     name: "githubUserName",
-    message: "What is your Github username?"
+    message: "What is the Engineer's Github username?"
 }
 
 // INQUIRER: INTERN QUESTION (ASK IF THEY PICK INTERN)
 const internQuestion = {
     type: "input",
     name: "schoolName",
-    message: "Where do you currently go to school?"
+    message: "Where does the intern currently go to school?"
 }
 
 // INQUIRER: MAKE ANOTHER EMPLOYEE?
@@ -88,7 +86,6 @@ async function userData(){
         await inquirer.prompt(basicQuestions).then(function(response){
             return employeeData = response;
         });
-
 
         // filter out the role response here
         switch(employeeData.role){
@@ -130,7 +127,6 @@ async function userData(){
 
         // ask if the user wants to make another employee
         await inquirer.prompt(makeAnother).then(function(response){
-            // console.log(response);
             return decision = response.makeAnother;
         });
 
@@ -139,7 +135,7 @@ async function userData(){
             await userData();
         } else {
             console.log(employeeArray);
-            // return;
+            
             // call the render() function
             let allEmployees = render(employeeArray);
 
@@ -149,137 +145,13 @@ async function userData(){
                     console.log(err);
                 }
                     console.log("Data entered!");
-            })
-
-            
+            })   
         }
-
-        // check employeearray
-        // console.log(employeeArray);
 
     } catch (err){
         console.log(err);
     }
 }
 
-
-
 // call the userData() function
 userData();
-
-
-
-
-// X After the user has input all employees desired, call the `render` function (required
-// above) and pass in an array containing all employee objects; the `render` function will
-// generate and return a block of HTML including templated divs for each employee!
-
-// After you have your html, you're now ready to create an HTML file using the HTML
-// returned from the `render` function. Now write it to a file named `team.html` in the
-// `output` folder. You can use the variable `outputPath` above target this location.
-// Hint: you may need to check if the `output` folder exists and create it if it
-// does not.
-
-// X HINT: each employee type (manager, engineer, or intern) has slightly different
-// information; write your code to ask different questions via inquirer depending on
-// employee type.
-
-// X HINT: make sure to build out your classes first! Remember that your Manager, Engineer,
-// and Intern classes should all extend from a class named Employee; see the directions
-// for further information. Be sure to test out each class and verify it generates an 
-// object with the correct structure and methods. This structure will be crucial in order
-// for the provided `render` function to work!```
-
-
-
-
-
-// ================= NOTES =======================
-
-
-// // INQUIRER: ASK BASIC QUESTIONS
-// inquirer.prompt(basicQuestions).then(function(response){
-//     console.log(response);
-// });
-
-// // INQUIRER: IF MANAGER, ASK THIS QUESTION
-// inquirer.prompt(managerQuestion).then(function(response){
-//     console.log(response);
-// });
-
-// // // INQUIRER: IF ENGINEER, ASK THIS QUESTION
-// inquirer.prompt(engineerQuestion).then(function(response){
-//     console.log(response);
-// });
-
-// // // INQUIRER: IF INTERN, ASK THIS QUESTION
-// inquirer.prompt(internQuestion).then(function(response){
-//     console.log(response);
-// });
-
-// INQUIRER:  ROLE QUESTION
-// const roleQuestion = [
-//     {
-//     type: "list",
-//     name: "role",
-//     message: "What is your role?",
-//     choices: [
-//         "Manager",
-//         "Engineer",
-//         "Intern"
-//     ]}
-// ]
-
-
-// WORKING ASYNC FUNCTION
-// async function userData(){
-//     try{
-//         // ask basic questions first
-//         await inquirer.prompt(basicQuestions).then(function(response){
-//             return basicUser = response;
-//         });
-
-//         // ask role question next
-//         await inquirer.prompt(roleQuestion).then(function(response){
-//             return employeeRole = response.role;
-//         });
-
-//             // use role response from above to filter the questions
-            // switch(employeeRole){
-            //     case "Manager":
-            //         inquirer.prompt(managerQuestion).then(function(response){
-            //             basicUser.officeNumber = response.officeNumber;
-            //             dataArray.push(basicUser);
-            //             console.log(dataArray);
-            //         });
-
-            //         break;
-
-            //     case "Engineer":
-            //         inquirer.prompt(engineerQuestion).then(function(response){
-            //             basicUser.githubUsername = response.githubUserName;
-            //             dataArray.push(basicUser);
-            //             console.log(dataArray);
-            //         });                
-                    
-            //         break;
-
-            //     case "Intern":
-            //         inquirer.prompt(internQuestion).then(function(response){
-            //             basicUser.schoolName = response.schoolName;
-            //             dataArray.push(basicUser);
-            //             console.log(dataArray);
-            //         });
-
-            //         break;
-
-            //     default:
-
-            //         break;
-            // };
-
-
-//     } catch (err){
-//         console.log(err);
-//     }
-// }
