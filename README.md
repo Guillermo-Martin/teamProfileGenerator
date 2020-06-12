@@ -1,4 +1,4 @@
-# Homework: Team Profile Generator
+# Team Profile Generator
 
 ## Description
 The following application is a command-line application that will create an HTML file with employee information gathered from a series of prompts.  In order to use
